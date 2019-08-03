@@ -1,0 +1,99 @@
+*NAME wp
+*SCRNAME wp
+*LOOPLBL wp
+*OPTLBL wp
+*DOSVER SENS
+*PROMPT "Select Item: "
+*IF !CGA
+*MESSAGE "CGA CARD FITTED/SWITCHED"
+*ENDIF
+*OPTCOL 1 33
+*KEYCOL 40 31
+*BOXCOL 40 35
+*TTLCOL 40 37
+*STLCOL 40 33
+*PRMCOL 40 36
+
+*IF !HERC
+*MESSAGE "HERCULES CARD FITTED/SWITCHED"
+*OPTCOL 0 0
+*KEYCOL 1 1
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*ENDIF
+
+*IF !EGAMON
+*MESSAGE "EGA driver with Mono monitor."
+*OPTCOL 0 0
+*KEYCOL 1 1
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*ENDIF
+
+*TITLE "PC Support Group - WORDPROCESSING MENU"
+*OPTION 1 "PC Write"
+        if exist \pcw\*.* goto found1
+        echo PC Write not found on disk
+        pause
+        goto nf1
+        :found1
+        cd\pcw
+        ed *.*
+        :nf1
+        cd\
+*ENDOPT
+
+*OPTION 2 "Visual Display Editor"
+        if exist \vde\*.* goto found2
+        echo VDE not found on disk
+        pause
+        goto nf2
+        :found2
+        cd\vde
+	WHAT V
+	MODE CO80
+        vde
+	WHAT V %WHAT%
+        :nf2
+        cd\
+*ENDOPT
+*OPTION 3 "PC-Outline"
+        if exist \pco\*.* goto wfound
+        echo PCOutline not found on disk
+        pause
+        goto wnf
+        :wfound
+        cd\pco
+        pco
+        :wnf
+        cd\
+*ENDOPT
+*OPTION 4 "Screen Editor"
+        if exist \screen.* goto efound
+        echo Screen editor not found on disk
+        pause
+        goto enf
+        :efound
+        cd\
+        screen
+        :enf
+        cd\
+*ENDOPT
+*OPTION 5 "Future Addition"
+        REM PROGRAM TO GO IN HERE
+*ENDOPT
+
+*OPTION V "View Word Processor Documentation"
+	append c:\wpdoc
+	key-fake "F" 0 "\WPDOC\*.DOC" 13 "V"
+	SEETREE NOBAR
+	APPEND ;
+
+*ENDOPT
+*EXIT Q "Return to Main Menu"
+*ENDEXIT
+*FINISH

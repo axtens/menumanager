@@ -1,0 +1,70 @@
+*NAME menu
+*SCRNAME bruce
+*PROMPT "Select Item: "
+*COLOUR 1 33 0 31 0 35 0 37 0 33 0 36
+*TITLE "MAIN MENU"
+*SUPER "PC Support Group"
+*OPTION E "Programmer's Editor (EDWIN)"
+        what s "What directory: "
+        cd %WHAT%
+        dir/w
+        echo.
+        what s "What file: "
+        edwin %WHAT%
+*ENDOPT
+*OPTION N "Norton Utilities"
+        ni
+*ENDOPT
+*OPTION K "Kermit"
+        call frog
+*ENDOPT
+*OPTION V "DEC VAX 3"
+        cd\kermit
+        kermit take vax.ker
+        cd\
+*ENDOPT
+*OPTION W  "Word Processor (Works)"
+        call works
+*ENDOPT
+*OPTION F  "Hard disk file manager"
+        seetree nobar
+*ENDOPT
+*OPTION R "Run"
+        what s "Command: "
+        if %WHAT%@==@ goto fail
+        %WHAT%
+        pause
+        :fail
+*ENDOPT
+*OPTION P "Turbo Pascal"
+        pushdir
+        c:
+        cd\tp\source
+        turbo
+        popdir
+*ENDOPT
+*HELP
+
+
+
+
+
+
+
+
+
+
+     The letter in red is the one to press. Press one key only.
+
+
+
+
+
+
+
+
+
+
+
+*ENDHELP
+*FINISH

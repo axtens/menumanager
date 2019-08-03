@@ -1,0 +1,19 @@
+MENU MANAGER
+
+        MenuManager provides a menu-driven 'front end' to the MicroSoft
+        Disk Operating System (MSDOS) for casual and inexperienced
+        users.
+
+        MenuManager menus are defined using a proprietary Menu
+        Definition Language (MDL) which is translated by MenuManager
+        into a batch language file. On this computer that batch file is
+        called MENU.BAT.
+
+        Users wishing to redefine their own menus should read the file
+        MM.DOC which describes the MenuManager MDL. The MicroSoft User's
+        reference should also be consulted regarding the format of MSDOS
+        batch language commands.
+
+        Ultimately, MenuManager does not do away with the need to learn
+        about MSDOS. Rather it provides the means to use one's computer and
+        preserve one's sanity in the learning process.

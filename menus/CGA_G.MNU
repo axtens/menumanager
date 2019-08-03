@@ -1,0 +1,32 @@
+*NAME cga_g
+*PROMPT "Select Item: "
+*COLOUR 1 33 40 31 40 35 40 37 40 33 40 36
+*OPTLBL GAME
+*LOOPLBL GLOOP
+*COMMENT *SUPER "PC Support Group"
+*TITLE "PC Support Group - GAMES MENU"
+*DOSVER 3.2
+*OPTION 1 Spacewar
+SWC
+*ENDOPT
+*OPTION 2 Striker
+STRIKER
+*ENDOPT
+*OPTION 3 Pinball
+PINBALL
+*ENDOPT
+*OPTION 4 Jumpjoe
+JUMPJOE
+*ENDOPT
+*OPTION 5 Solitare
+SOLITARE
+*ENDOPT
+*OPTION 6 Bricks
+bricks
+*ENDOPT
+*OPTION V "View game help files"
+        SEETREE
+*ENDOPT
+*EXIT Q "Quit to MAIN MENU"
+*FINISH
+

@@ -1,0 +1,204 @@
+*NAME mono
+*DOSVER SENS
+*PROMPT "Select Item: "
+*OPTCOL 0 0
+*KEYCOL 1 1
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*TITLE "PC Support Group - MAIN MENU"
+*COMMENT *SUPER "PC Support Group"
+*OPTION L  "Learn about PCs and MSDOS (PC-Tutor)"
+        if exist \tutor\*.* goto lfound
+        echo Tutor not on disk
+        pause
+        goto lnotfound
+        :lfound
+        cd\tutor
+        tutor
+        :lnotfound
+        cd\
+*ENDOPT
+*OPTION T  "Typing tutor (FasType)"
+        if exist \fastype\*.* goto tfound
+        echo Fastype not on disk
+        pause
+        goto tnotfound
+        :tfound
+        cd\fastype
+        mode co80
+        fastype
+        :tnotfound
+        mode mono
+        cd\
+*ENDOPT
+*OPTION F  "File manager for hard disks (SEETREE)"
+        cd\
+        SEETREE
+*ENDOPT
+*OPTION P "Processor of words (PC-Outline)"
+        if exist \pco\*.* goto wfound
+        echo PCOutline not found on disk
+        pause
+        goto wnotfound
+        :wfound
+        cd\pco
+        pco
+        :wnotfound
+        cd\
+*ENDOPT
+*OPTION D  "Database (PC-File)"
+        if exist \pcfile\*.* goto dfound
+        echo PC-File not found on disk
+        pause
+        goto dnotfound
+        :dfound
+        cd\pcfile
+        pc-file
+        :dnotfound
+        cd\
+*ENDOPT
+*OPTION S  "Spreadsheet (ASEASY)"
+        if exist \aseasy\*.* goto sfound
+        echo AsEasy not found on disk
+        pause
+        goto snotfound
+        :sfound
+        cd\aseasy
+        aseasy/DIR=C:\ASEASY
+        :snotfound
+        cd\
+*ENDOPT
+*OPTION W "Microsoft Works (WP/DB/SS/GR/Comms)"
+        if exist \works\*.* goto wkfound
+        echo Works not found on disk
+        pause
+        goto wknotfound
+        :wkfound
+        cd\works
+        works
+        :wknotfound
+        cd\
+*ENDOPT
+*OPTION B  "Business Graphics (GraphTime-II)"
+        if exist \gt\*.* goto bfound
+        echo Graphtime-II not found on disk
+        pause
+        goto bnotfound
+        :bfound
+        cd\gt
+        mode co80
+        echo Loading GRAPHTIME-II Screen-print Driver.
+        ECHO OFF
+        PORT LPT1:
+        REM
+        REM V2.7C 04-18-1988A
+        REM AHLKCYDEUGYZBXZBEEJFU
+        REM EGCSBAHUKVNODOQKBDQZX
+        REM MBDKAIPJKHGCEMHJRCEVB
+        REM ESUA@FHWEAKYATUMTBVCE
+        REM MOUSE
+        gtprS
+        GTSTART
+        echo GRAPHTIME-II Ended.
+        mode mono
+        :bnotfound
+        cd\
+*ENDOPT
+*OPTION E "Editor/Word Processor (SCREEN)"
+        if exist \composer\screen.* goto efound
+        echo Screen editor not found on disk
+        pause
+        goto enotfound
+        :efound
+        cd\composer
+        screen
+        :enotfound
+        cd\
+*ENDOPT
+*OPTION U  "Utilities and other useful programs"
+        if exist \utils\*.* goto ufound
+        echo Utilities not found on disk
+        pause
+        goto unotfound
+        :ufound
+        cd\utils
+        prompt Type: EXIT$lEnter$g to return to menu$_$P$G
+        dir/w
+        command
+        prompt $p$g
+        :unotfound
+        cd\
+*ENDOPT
+*OPTION G  "Games"
+        if exist \games\*.* goto gfound
+        echo Games not found on disk
+        pause
+        goto gnotfound
+        :gfound
+        cd\games
+        mode co80
+        #include mono_g.bat
+        mode mono
+        :gnotfound
+        cd\
+*ENDOPT
+*OPTION C  "Composer of music (COMPOSER)"
+        if exist \composer\composer.* goto cfound
+        echo Composer not found on disk
+        pause
+        goto cnotfound
+        :cfound
+        cd\composer
+        mode co80
+        composer
+        mode mono
+        :cnotfound
+        cd\
+*ENDOPT
+*OPTION H "Help with MenuManager"
+cls
+echo.
+echo                             MENU MANAGER
+echo.
+echo          MenuManager provides a menu-driven 'front end' to the
+echo     MicroSoft Disk Operating System (MSDOS) for casual and
+echo     inexperienced users.
+echo.
+echo          MenuManager menus are defined using a proprietary Menu
+echo     Definition Language (MDL) which is translated by MenuManager
+echo     into a batch language file. On this computer that batch file
+echo     is called MENU.BAT.
+echo.
+echo          Users wishing to redefine their own menus should read
+echo     the file MM.DOC which describes the MenuManager MDL. The
+echo     MicroSoft User's Guide and User's Reference should also be
+echo     consulted regarding the format of MSDOS batch language
+echo     commands.
+echo.
+what c "Do you wish to read the MenuManager documentation (Y/N)? " YN
+if %WHAT%==Y list mm.doc
+*ENDOPT
+*COMMENT *OPTION R "Root directory listing"
+*COMMENT         cd\
+*COMMENT         dir *./p
+*COMMENT         pause
+*COMMENT *ENDOPT
+*OPTION R "Run another program or MSDOS command"
+        cd\
+        prompt Type: EXIT$lEnter$g to return to menu$_$P$G
+        command
+        prompt $p$g
+        cd\
+*ENDOPT
+*OPTION M "Prepare to move computer (PARK)"
+        hddpark
+*ENDOPT
+*EXIT X "Exit to DOS"
+      prompt $e[s$e[1;67H$d$e[2;67H$t$h$h$h$e[u$p $g
+      c:
+      cd\
+      cls
+*ENDEXIT
+*FINISH

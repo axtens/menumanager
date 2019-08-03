@@ -1,0 +1,89 @@
+*NAME MENUAT.BAT
+*PROMPT "Select Item: "
+*DOSVER 3.3
+*SUPER "Curtin University of Technology"
+*TITLE "WORD PROCESSING MAIN MENU"
+*EXIT "X" "Exit to DOS"
+*OPTION "W" "Word Processor (Microsoft Word V4)"
+        cd\word
+        word
+        cd\
+*ENDOPT
+*OPTION "C" "Copy Word document to floppy disk"
+        what s "Name of Word document to copy: "
+        if @%WHAT%==@ goto loop
+        set FN=%WHAT%
+        what s "Disk to copy to [A or B]: "
+        if @%WHAT%==@B goto ok2
+        if @%WHAT%==@A goto ok2
+        if @%WHAT%==@b goto ok2
+        if @%WHAT%==@a goto ok2
+        echo.
+        echo Disk must be A or B
+        echo.
+        set FN=
+        pause
+        goto loop
+        :ok2
+        echo Put disk in drive %WHAT%:, close door and ...
+        pause
+        copy c:\word\%FN%.doc %WHAT%:
+        set FN=
+*ENDOPT
+*OPTION "R" "Retrieve Word document from floppy disk"
+        what s "Name of Word document to copy: "
+        if @%WHAT%==@ goto loop
+        set FN=%WHAT%
+        what s "Disk to copy from [A or B]: "
+        if @%WHAT%==@B goto ok2
+        if @%WHAT%==@A goto ok2
+        if @%WHAT%==@b goto ok2
+        if @%WHAT%==@a goto ok2
+        echo.
+        echo Disk must be A or B
+        echo.
+        set FN=
+        pause
+        goto loop
+        :ok2
+        echo Put disk in drive %WHAT%:, close door and ...
+        pause
+        copy %WHAT%:%FN.doc c:\word
+        set FN=
+*ENDOPT
+*OPTION "L" "Learn about Microsoft Word V4"
+        cd\word
+        learn
+        cd\
+*ENDOPT
+*OPTION "E" "Word Exchange (Document Converter)"
+        cd\we
+        convert
+        cd\
+*ENDOPT
+*OPTION "K" "Kermit (PC to/from VAX file transfer)"
+        cd\kermit
+        kermit
+        cd\
+*ENDOPT
+*OPTION "T" "Tutor for MSDOS"
+        cd\tutor
+        tutor
+        cd\
+*ENDOPT
+*OPTION "F" "Format floppy disk"
+        what s "Format which disk [A or B]: "
+        if @%WHAT%==@B goto ok3
+        if @%WHAT%==@A goto ok3
+        if @%WHAT%==@b goto ok3
+        if @%WHAT%==@a goto ok3
+        echo.
+        echo Disk must be A or B
+        echo.
+        pause
+        goto loop
+        :ok3
+        format %WHAT%:/v
+*ENDOPT
+*FINISH
+

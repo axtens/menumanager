@@ -1,0 +1,3 @@
+rem make file pcs menu
+sub games.mnu wp.mnu
+main menu.mnu

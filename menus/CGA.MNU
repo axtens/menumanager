@@ -1,0 +1,170 @@
+*NAME cga
+*PROMPT "Select Item: "
+*COLOUR 1 33 40 31 40 35 40 37 40 33 40 36
+*TITLE "PC Support Group - MAIN MENU"
+*COMMENT *SUPER "PC Support Group"
+*OPTION L  "Learn about PCs and MSDOS (PC-Tutor)"
+        if exist \tutor\*.* goto lfound
+        echo Tutor not on disk
+        pause
+        goto lnotfound
+        :lfound
+        cd\tutor
+        tutor
+        :lnotfound
+        cd\
+*ENDOPT
+*OPTION T  "Typing tutor (FasType)"
+        if exist \fastype\*.* goto tfound
+        echo Fastype not on disk
+        pause
+        goto tnotfound
+        :tfound
+        cd\fastype
+        rem mode co80
+        fastype
+        :tnotfound
+        rem mode mono
+        cd\
+*ENDOPT
+*OPTION F  "File manager for hard disks (SEETREE)"
+        cd\
+        SEETREE
+*ENDOPT
+*OPTION W  "Word Processor (PC-Outline)"
+        if exist \pco\*.* goto wfound
+        echo PCOutline not found
+        pause
+        goto wnotfound
+        :wfound
+        cd\pco
+        pco
+        :wnotfound
+        cd\
+*ENDOPT
+*OPTION S  "Spreadsheet (ASEASY)"
+        if exist \aseasy\*.* goto sfound
+        echo AsEasy not found
+        pause
+        goto snotfound
+        :sfound
+        cd\aseasy
+        aseasy/DIR=C:\ASEASY
+        :snotfound
+        cd\
+*ENDOPT
+*OPTION D  "Database (PC-File)"
+        if exist \pcfile\*.* goto dfound
+        echo PC-File not found
+        pause
+        goto dnotfound
+        :dfound
+        cd\pcfile
+        pc-file
+        :dnotfound
+        cd\
+*ENDOPT
+*OPTION B  "Business Graphics (GraphTime-II)"
+        if exist \gt\*.* goto bfound
+        echo Graphtime-II not found
+        pause
+        goto bnotfound
+        :bfound
+        cd\gt
+        rem mode co80
+        echo Loading GRAPHTIME-II Screen-print Driver.
+        ECHO OFF
+        PORT LPT1:
+        REM
+        REM V2.7C 04-18-1988A
+        REM AHLKCYDEUGYZBXZBEEJFU
+        REM EGCSBAHUKVNODOQKBDQZX
+        REM MBDKAIPJKHGCEMHJRCEVB
+        REM ESUA@FHWEAKYATUMTBVCE
+        REM MOUSE
+        gtprS
+        GTSTART
+        echo GRAPHTIME-II Ended.
+        rem mode mono
+        :bnotfound
+        cd\
+*ENDOPT
+*OPTION E "Editor/Word Processor (SCREEN)"
+        if exist \composer\screen.* goto efound
+        echo Screen editor not found
+        pause
+        goto enotfound
+        :efound
+        cd\composer
+        screen
+        :enotfound
+        cd\
+*ENDOPT
+*OPTION U  "Utilities and other useful programs"
+        if exist \utils\*.* goto ufound
+        echo Utilities not found
+        pause
+        goto unotfound
+        :ufound
+        cd\utils
+        prompt Type: EXIT$lEnter$g to return to menu$_$P$G
+        dir
+        command
+        prompt $p$g
+        :unotfound
+        cd\
+*ENDOPT
+*OPTION G  "Games"
+        if exist \games\*.* goto gfound
+        echo Games not found
+        pause
+        goto gnotfound
+        :gfound
+        cd\games
+        rem mode co80
+        #include cga_g.bat
+        rem mode mono
+        :gnotfound
+        cd\
+*ENDOPT
+*OPTION C  "Composer of music (COMPOSER)"
+        if exist \composer\composer.* goto cfound
+        echo Composer not found
+        pause
+        goto cnotfound
+        :cfound
+        cd\composer
+        rem mode co80
+        composer
+        rem mode mono
+        :cnotfound
+        cd\
+*ENDOPT
+*OPTION R "Root directory listing"
+        cd\
+        dir *./p
+        pause
+*ENDOPT
+*OPTION P "Park hard disk and shutdown system"
+        hddpark
+*ENDOPT
+*HELP
+
+
+
+
+
+
+
+       Press the red letter.
+
+
+
+
+
+
+
+
+*ENDHELP
+*FINISH
+

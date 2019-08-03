@@ -1,0 +1,17 @@
+.menu main
+.define colours
+        text is black on white
+.enddefine
+.option G games
+        cd \games
+        gamemenu
+        cd \
+.endoption
+.option W Windows
+        cd \windows
+        win
+        cd \
+.endoption
+.option Q quit
+.endoption
+.finish

@@ -1,0 +1,76 @@
+*NAME egamon_g
+*DOSVER SENS
+*PROMPT "Select Item: "
+*OPTCOL 0 0
+*KEYCOL 1 0
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*OPTLBL GAME
+*LOOPLBL GLOOP
+*COMMENT *SUPER "PC Support Group"
+*TITLE "PC Support Group - GAMES MENU"
+*DOSVER 3.2
+*OPTION 1 Spacewar
+if exist SWC.* goto SWCok
+echo Could not find SWC
+pause
+goto SWCf
+:SWCok
+SWC
+:SWCf
+*ENDOPT
+*OPTION 2 Chess
+if exist CHESS88.* goto CHESS88ok
+echo Could not find CHESS88
+pause
+goto CHESS88f
+:CHESS88ok
+CHESS88
+:CHESS88f
+*ENDOPT
+*OPTION 3 Pinball
+if exist PINBALL.* goto PINBALLok
+echo Could not find PINBALL
+pause
+goto PINBALLf
+:PINBALLok
+PINBALL
+:PINBALLf
+*ENDOPT
+*OPTION 4 Jumpjoe
+if exist JUMPJOE.* goto JUMPJOEok
+echo Could not find JUMPJOE
+pause
+goto JUMPJOEf
+:JUMPJOEok
+JUMPJOE
+:JUMPJOEf
+*ENDOPT
+*OPTION 5 Solitare
+if exist SOLITARE.* goto SOLITAREok
+echo Could not find SOLITARE
+pause
+goto SOLITAREf
+:SOLITAREok
+SOLITARE
+:SOLITAREf
+*ENDOPT
+*OPTION 6 Bricks
+if exist bricks.* goto bricksok
+echo Could not find bricks
+pause
+goto bricksf
+:bricksok
+bricks
+:bricksf
+*ENDOPT
+*OPTION V "View game help files"
+        key-fake "F" 0 "\GAMES\*.DOC" 13 "V"
+        seetree nobar
+*ENDOPT
+*EXIT Q "Quit to MAIN MENU"
+*ENDEXIT
+*FINISH
+

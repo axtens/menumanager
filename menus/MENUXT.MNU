@@ -1,0 +1,44 @@
+*NAME menuxt.BAT
+*PROMPT "Select Item: "
+*DOSVER 3.2
+*SUPER "Curtin University of Technology"
+*TITLE "WORD PROCESSING MAIN MENU"
+*OPTION W "Word Processor (Microsoft Word V4)"
+        cd\word
+        word
+        cd\
+*ENDOPT
+*OPTION M "Multimate Word Processor"
+        cd\mm
+        wp
+        cd\
+*ENDOPT
+*OPTION C "Copy Word document to floppy disk"
+        what s "Name of Word document to copy: "
+        if @%WHAT%==@ goto loop
+        echo Put disk in drive A:, close door and ...
+        pause
+        copy c:\word\%WHAT%.doc A:
+        pause
+*ENDOPT
+*OPTION R "Retrieve Word document from floppy disk"
+        what s "Name of Word document to copy: "
+        if @%WHAT%==@ goto loop
+        echo Put disk in drive A:, close door and ...
+        pause
+        copy a:%WHAT%.doc c:\word
+*ENDOPT
+*OPTION L "Learn about Microsoft Word V4"
+        cd\word
+        learn
+        cd\
+*ENDOPT
+*OPTION T "Tutor for MSDOS"
+        cd\tutor
+        tutor
+        cd\
+*ENDOPT
+*OPTION F "Format floppy disk"
+        format %WHAT%:/v
+*ENDOPT
+*FINISH

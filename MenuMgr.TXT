@@ -1,0 +1,927 @@
+Copyright ..................................................
+Notice .....................................................
+Disclaimer .................................................
+Abstract ...................................................
+Concept ....................................................
+Operational Needs ..........................................
+Using Menu Manager .........................................
+Limitations ................................................
+Language Reference .........................................
+Appendix A .................................................
+Appendix B .................................................
+Appendix C .................................................
+Appendix D .................................................
+Registration and Suggestion Forms ..........................
+Further Information ........................................
+
+      
+                                COPYRIGHT
+      
+MenuManager is designed, written, and manufactured by Bruce M. Axtens
+(hereafter referred to as the Author.) The MenuManager software is
+copyright Bruce M. Axtens. Intellectual property rights
+and all other rights are reserved.
+      
+                                 NOTICE
+      
+The Author reserves the right to make improvements and additions to this
+product without notice. The Author would be pleased if you made
+suggestions for improvements or additions on the Suggestions form below.
+
+                               DISCLAIMER
+      
+In no event will the Author be liable to you for any damages, including
+any lost profits, lost savings or other incidental or consequential
+damages arising out of the use of or inability to use this program, even
+if the Author has been advised of the possibility of such damages, or
+for any claim by any other party.
+
+
+                                ABSTRACT
+      
+MSDOS  is  an  unfriendly  operating environment.  Over  the  years
+various programs  have been written to make using  it easier.
+MenuManager is one of them.
+      
+MenuManager takes a file containing Menu Definition Language (MDL)
+commands and  produces an MSDOS Batch Language file, and an optional
+file containing the  on-screen menu itself. When this file  is executed,
+by typing its name at  the MSDOS prompt,  a menu is displayed  and the
+user  is prompted for a single  keystroke.  Each keystroke  runs a
+different  program and  all the necessary moves to subdirectories and
+adding of parameters are made without user intervention.
+      
+The menu will continue to operate until the exit keystroke is pressed.
+      
+On  the surface this insulates the casual  user from the intricacies of
+the operating  system. However, if you wish to  make any changes to an
+existing menu  batch file, you will need to learn  the MDL command set
+and have some knowledge of MSDOS commands.
+                                           
+                                           
+                                 CONCEPT
+                                           
+     Translation (.MNU to .BAT)
+      
+                          ---------------------------------
+                          | Menu Definition Language File |
+                          ---------------------------------
+                                          |
+                                         \|/
+                               /--------------------\
+                              | Menu Manager Program |
+                               \--------------------/
+                                          |
+                                         /\
+                                        /  \
+                                       /    \
+             ----------------------------- -----------------------------
+             | MSDOS Batch Language Menu | | Optional Displayable File |
+             ----------------------------- -----------------------------
+      
+     Running (.BAT file)
+                                            ----------------------
+                                            |                    |
+                                           \|/                   |
+                              -----------------------------      |
+                              | MSDOS Batch Language Menu |      |
+                              -----------------------------      |
+                                            |                    |
+                                            |    --------------- |
+                                           / \-->| Run Program |--
+                                          |      ---------------
+                                         \|/
+                                       --------
+                                       | EXIT |
+                                       --------
+
+                            OPERATIONAL NEEDS
+      
+      
+ANSI.SYS must be loaded into memory. This is done by adding
+      
+                      device=ansi.sys
+      
+to the CONFIG.SYS file on the boot disk/root directory. (For the first
+time you  will need to reboot  your computer.) Without this,  all the
+colour and screen  addressing  commands  embedded in  the  batch file
+will  appear as gobbledegook on the screen.
+      
+Note: The CONFIG.SYS file already has this added on the PCS-Turbo.
+
+                            USING MENUMANAGER
+      
+MenuManager is executed as
+      
+                      mm <filename>
+      
+The  filename must be supplied on the command line and MenuManager
+requires that  it have  an extension  of .MNU  and contain  legal
+MenuManager   Menu Definition Language (MDL) statements.
+      
+     Eg.
+                      MM mymenu.mnu <Enter>
+      
+See appendix C for a sample MDL file.
+
+                               LIMITATIONS
+      
+Menu length
+     MenuManager  allows a maximum of 18 options per screen.
+      
+Subsidiary menus  
+     MenuManager  does not  allow the  declaration  of submenus  in Menu
+     Definition  Language files. Two techniques may  be used to produce
+     the same effect:
+
+              1. Write a  separate MDL  file which,  after translation 			using MenuManager, may be called from the main menu 				using:
+                   command/c menuname      [MSDOS V2 -- V3.2] 
+      
+                   call menuname           [MSDOS V3.3] 
+      
+      
+                For example: 
+      
+                   *OPTION G "Games" 
+                     command/c gamemenu 
+                   *ENDOPT 
+      
+              2. Write a  separate MDL  file which,  after translation 			using MenuManager, is embedded  in the main  menu batch 			file  using a text editor.  The  MDL  commands *OPTLBL 			and *LOOPLBL  are  used  in this situation  to make sure 			that the destination labels in the subsidiary menu batch 			file are different from those in the main menu.
+
+              3. Use the *INCLUDE command between *OPTION and *ENDOPT. 			*INCLUDE allows a filename which is included within the 			option being defined. The file must have already been 				translated by MenuManager into a batch file. MenuManager 			will not attempt to translate any commands embedded in 			the subsidiary file.
+
+The Box  
+     MenuManager  draws a box on screen to enclose the menu options. The
+only  way this can be disabled is to set the background and foreground
+colours to the same value, preferably black.  LANGUAGE REFERENCE
+      
+Keyword: *COMMENT 
+Description: Allows comments to be embedded in an MDL file. 
+Parameters: Any or no text. 
+Defaults: none. 
+Example: *COMMENT This is a comment 
+Note: none. 
+ 
+Keyword: *NAME 
+Description: Defines the name of the output file. The file type will
+always be .BAT. 
+Parameters: A filename of 1 to 8 characters.
+Defaults: Name defaults to MENU. 
+Example: *NAME MAINMENU 
+Note:  See Appendix A for a list of illegal characters which must not
+occur in the name. 
+
+Keyword: *SUPER 
+Description:  Defines the super-title which appears centred on line one
+(1) of the menu screen. 
+Parameters: A string of characters delimited by double quotes.
+Defaults: Blank. 
+Example: *SUPER "Curtin University of Technology" 
+Note:  If no  super title  is defined, line  1 of  the menu  screen will
+be blank.  See Appendix A for  a list of illegal  characters which must
+not be used in the super-title. 
+
+Keyword: *TITLE 
+Description:  Defines the title which appears  centred on line three (3)
+of the menu screen. 
+Parameters: A string of characters delimited by double quotes.
+Defaults: Blank. 
+Example: *TITLE "PC Support Group - MAIN MENU" 
+Note:  If no title is defined, line 3 of the menu screen will be blank.
+See Appendix  A for a list of illegal characters  which must not be used
+in the title. 
+
+Keyword: *EXIT 
+Description:  Defines the keystroke for exiting the menu and its
+associated menu  heading. It also  defines a series  of MSDOS commands
+to be executed upon  exiting the menu.  *EXIT must always be  matched
+with a corresponding *ENDEXIT. 
+Parameters:  A single character, a string of characters delimited by
+double quotes and a series of MSDOS commands terminated by *ENDEXIT.
+Defaults: X "Exit to DOS"
+          cd\
+          prompt $p$g
+Example: *EXIT Q "Quit to MSDOS"
+          prompt $p$G
+          c:
+          cd\
+         *ENDEXIT
+Note:  See Appendix A  for a list  of illegal characters  which must not
+be used in the menu option heading. An error occurs if *ENDEXIT is not
+found.
+
+Keyword: *ENDEXIT
+Description: Defines the end of an *EXIT definition.
+Parameters: None.
+Defaults: None.
+Example: *ENDEXIT
+Note: Must be paired with a *EXIT command.
+      
+Keyword: *PROMPT
+Description: Defines the text of the keystroke prompt.
+Parameters: A string of characters delimited by double quotes.
+Defaults: "Select first letter: "
+Example: *PROMPT "Press a red letter: "
+Note:  See Appendix A  for a list  of illegal characters  which must not
+be used in the prompt text.
+
+Keyword: *KEYGAP
+Description:  Defines the distance between the keystroke and the heading
+on the menu screen.
+Parameters: A number.
+Defaults: 2
+Example: *KEYGAP 4
+Note: MenuManager does not check the validity of the number.
+
+Keyword: *OPTION
+Description:   Defines  a  menu  item,  its  keystroke,  menu  heading
+and associated MSDOS commands. Must always be paired with *ENDOPT.
+Parameters:  A single character, a string  of character delimited by
+double quotes.  On the line/s  between *OPTION and *ENDOPT,  MSDOS
+commands may be inserted.
+Defaults: None.
+Example: *OPTION W "Word Processor (PC Write)"
+               cd\pcw
+               ed *.doc
+               cd\
+         *ENDOPT
+Note:  An error will occur if any other MDL command appears before
+*ENDOPT. An  error will occur if  end of file is reached  before *ENDOPT
+is found. A maximum  of 15 options may be defined. See Appendix A for a
+list of illegal characters which must not be used in the menu heading.
+
+Keyword: *ENDOPT
+Description: Paired with *OPTION, ends the definition of a menu option.
+Parameters: None.
+Defaults: None.
+Example: See *OPTION
+Note:  An  error  will occur  if  *ENDOPT encountered  without  a
+preceding *OPTION statement.
+
+Keyword: *FINISH
+Description:  Final line in any MDL  file. Causes MenuManager to create
+the Batch file based on all the previous definitions.
+Parameters: None.
+Defaults: None.
+Example: *FINISH
+Note: An error occurs if *FINISH not found.
+ 
+Keyword: *DOSVER
+Description:  Defines the  MSDOS version number  under which  the menu
+will run. Before DOS 3.3 the initial 'ECHO OFF' in a batch file is
+echoed to the screen.  In DOS 3.3, putting  an '@' before it  inhibits
+the echoing. Menus defined  with '*DOSVER 3.3' have the '@'. Using the
+'SENS' parameter causes MenuManager  to request MSDOS for the version
+number. If the version number returned  is  greater  than 3.3  then  the
+effect is  the  same  as having programmed '*DOSVER 3.3'.
+Parameters: A number or 'SENS'
+Defaults: 3.2
+Example: *DOSVER SENS
+Note:  Running a  3.3 menu  under 3.2 or  earlier versions  will cause
+many errors.
+
+Keyword: *OPTCOL
+Description:  Defines  the  background  and  foreground  colours  for
+menu headings.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *OPTCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *KEYCOL
+Description: Defines the background and foreground colours for keystrokes.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *KEYCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *PRMCOL
+Description: Defines the background and foreground colours for the prompt.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *PRMCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *BOXCOL
+Description:  Defines  the background  and  foreground colours  for  the
+on screen box.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *BOXCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *TTLCOL
+Description: Defines the background and foreground colours for the title
+on line 3.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *TTLCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *STLCOL
+Description:  Defines the background  and foreground colours  for the
+super title on line 1.
+Parameters: 2 numbers
+Defaults: 0 0
+Example: *STLCOL 1 33
+Note: MenuManager does not check the validity of the number. See
+Appendix B for allowable ANSI colour codes.
+
+Keyword: *COLOUR
+Description:  Defines  the  background  and  foreground  colours  for
+menu headings, keystrokes, box lines, title, super title and prompt.
+Parameters: 12 numbers separated by spaces.
+Defaults: 0 0 0 0 0 0 0 0 0 0 0 0
+Example: *COLOUR 0 0 1 1 0 0 0 0 0 0 0 0
+Note:  MenuManager does not check the validity of the numbers. See
+Appendix B  for allowable  ANSI colour  codes. This  command maintains
+compatibility with versions of MenuManager pre version 1.8.
+
+Keyword: *LOOPLBL
+Description:  Defines the name of the main  label in the batch file.
+Useful only when writing menus to be physically inserted into other
+menus.
+Parameters: 1 to 8 characters.
+Defaults: MENULOOP
+Example: *LOOPLBL WOMBAT
+Note:  See Appendix A  for a list  of illegal characters  which must not
+be used in the loop label.
+
+Keyword: *OPTLBL
+Description:  Defines  the name  of the  option labels  in the  batch
+file. Useful only when writing menus to be physically inserted in other
+menus.
+Parameters: 1 to 8 characters.
+Defaults: MENUOPT
+Example: *OPTLBL DINGO
+Note:  See Appendix A  for a list  of illegal characters  which must not
+be used in the option label.
+
+Keyword: *FIRST
+Description:  Defines the line at which keystrokes and headings begin to
+be displayed on the menu screen.
+Parameters: A number.
+Defaults: 5
+Example: *FIRST 6
+Note: MenuManager does not check the validity of the number.
+
+Keyword: *SCRNAME
+Description: Defines the name of the file to contain the displayable menu.
+Parameters: A filename of 1 to 8 characters.
+Defaults: None.
+Example: *SCRNAME rabbit
+Note:  If *SCRNAME  is not defined  then the  menu will be  embedded in
+the batch  file as a series of ECHO commands. If it is defined then a
+file with type  .ESC will be created containing  ANSI escape sequences
+and text. This file  is displayed using the MSDOS command TYPE. In the
+latter case the use of < > and | are permitted.
+
+Keyword: *IF
+Description: Allows conditional translation based on video mode.
+Parameters: One only of the keywords CGA, HERC or a commandline
+parameter prefixed by an exclamation mark.
+Defaults: None.
+Example: *IF HERC 
+         *COLOUR 0 0 1 1 0 0 0 0 0 0 0 0
+         *ENDIF
+	    *IF !EGA
+	    *MESSAGE "EGA"
+	    *ENDIF
+
+Note:  Must be paired with a corresponding *ENDIF. If the video mode
+equals the  parameter,  then  all statements  bounded  by the
+*IF/*ENDIF  will be translated,  otherwise skipped.  An error  is
+generated  for *ENDIF without corresponding *IF.
+
+Keyword: *ENDIF
+Description: Terminates *IF, which see.
+Parameters: None.
+Defaults: None.
+Example: See *IF.
+Note: Must be preceded by an *IF.
+ 
+Keyword: *MESSAGE
+Description: Allows display of messages
+Parameters: Text in quotes.
+Defaults: Newline.
+Example:  *IF EGA
+          *MESSAGE "EGA mode selected" 
+          *ENDIF 
+Note: A null parameter will generate a carriage-return line-feed sequence.
+
+Appendix A:
+ 
+             Characters forbidden in text lines and filenames
+                                      
+In both text lines and filenames a few characters will generate an error
+when the menu is running and therefore it is suggested that these be
+avoided. These characters are:
+     1. Left and right angle brackets: < >
+     2. Vertical bar:                        |
+ 
+In filenames the following characters will generate errors:
+     [ ] ? * = ; " / , .
+  Appendix B:
+ 
+                               COLOUR CODES
+ 
+               Code                          Colour/Function
+               0                             All attributes off
+               1                             Bold on
+               2                             Faint on
+               3                             Italic on
+               5                             Blink on
+               6                             Rapid blink on
+               7                             Reverse video on
+               8                             Concealed on
+               30                            Black foreground
+               31                            Red foreground
+               32                            Green foreground
+               33                            Yellow foreground
+               34                            Blue foreground
+               35                            Magenta foreground
+               36                            Cyan foreground
+               37                            White foreground
+               40                            Black background
+               41                            Red background
+               42                            Green background
+               43                            Yellow background
+               44                            Blue background
+               45                            Magenta background
+               46                            Cyan background
+               47                            White background
+               48                            Subscript
+               49                            Superscript
+
+  Appendix C:
+      
+                              MENUMANAGER CODE EXAMPLE
+*NAME menu
+*SCRNAME menu
+*DOSVER SENS
+*PROMPT "Select Item: "
+*IF CGA
+*MESSAGE "CGA CARD FITTED/SWITCHED"
+*ENDIF
+*OPTCOL 1 33
+*KEYCOL 40 31
+*BOXCOL 40 35
+*TTLCOL 40 37
+*STLCOL 40 33
+*PRMCOL 40 36
+
+*IF HERC
+*MESSAGE "HERCULES CARD FITTED/SWITCHED"
+*OPTCOL 0 0
+*KEYCOL 1 1
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*ENDIF
+
+*IF !EGAMON
+*MESSAGE "EGA driver with Mono monitor."
+*OPTCOL 0 0
+*KEYCOL 1 1
+*BOXCOL 0 0
+*TTLCOL 0 0
+*STLCOL 0 0
+*PRMCOL 0 0
+*ENDIF
+
+*TITLE "PC Support Group - MAIN MENU"
+*COMMENT *SUPER "PC Support Group"
+*OPTION L  "Learn about PCs and MSDOS (PC-Tutor)"
+        if exist \tutor\*.* goto lfound
+        echo Tutor not on disk
+        pause
+        goto lnotfound
+        :lfound
+        cd\tutor
+        tutor
+        :lnotfound
+        cd\
+*ENDOPT
+*IF CGA
+*OPTION T  "Typing tutor (FasType)"
+        if exist \fastype\*.* goto tfound
+        echo Fastype not on disk
+        pause
+        goto tnotfound
+        :tfound
+        cd\fastype
+        rem mode co80
+        fastype
+        :tnotfound
+        rem mode mono
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF !EGAMON
+*OPTION T  "Typing tutor (FasType)"
+        if exist \fastype\*.* goto tfound
+        echo Fastype not on disk
+        pause
+        goto tnotfound
+        :tfound
+        cd\fastype
+        rem mode co80
+        fastype
+        :tnotfound
+        rem mode mono
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF HERC
+*OPTION T  "Typing tutor (FasType)"
+        if exist \fastype\*.* goto tfound
+        echo Fastype not on disk
+        pause
+        goto tnotfound
+        :tfound
+        cd\fastype
+        mode co80
+        fastype
+        :tnotfound
+        mode mono
+        cd\
+*ENDOPT
+*ENDIF
+
+*OPTION F  "File manager for hard disks (SEETREE)"
+        cd\
+        SEETREE
+*ENDOPT
+*OPTION P "WORD PROCESSING MENU"
+*INCLUDE Wp.bat
+*ENDOPT
+*OPTION D  "Database (PC-File)"
+        if exist \pcfile\*.* goto dfound
+        echo PC-File not found on disk
+        pause
+        goto dnotfound
+        :dfound
+        cd\pcfile
+        pc-file
+        :dnotfound
+        cd\
+*ENDOPT
+*OPTION S  "Spreadsheet (ASEASY)"
+        if exist \aseasy\*.* goto sfound
+        echo AsEasy not found on disk
+        pause
+        goto snotfound
+        :sfound
+        cd\aseasy
+        aseasy/DIR=C:\ASEASY
+        :snotfound
+        cd\
+*ENDOPT
+*OPTION W "Microsoft Works (WP/DB/SS/GR/Comms)"
+        if exist \works\*.* goto wkfound
+        echo Works not found on disk
+        pause
+        goto wknotfound
+        :wkfound
+        cd\works
+        works
+        :wknotfound
+        cd\
+*ENDOPT
+*IF CGA
+*OPTION B  "Business Graphics (GraphTime-II)"
+        if exist \gt\*.* goto bfound
+        echo Graphtime-II not found on disk
+        pause
+        goto bnotfound
+        :bfound
+        cd\gt
+        rem mode co80
+        echo Loading GRAPHTIME-II Screen-print Driver.
+        ECHO OFF
+        PORT LPT1:
+        REM
+        REM V2.7C 04-18-1988A
+        REM AHLKCYDEUGYZBXZBEEJFU
+        REM EGCSBAHUKVNODOQKBDQZX
+        REM MBDKAIPJKHGCEMHJRCEVB
+        REM ESUA@FHWEAKYATUMTBVCE
+        REM MOUSE
+        gtprS
+        GTSTART
+        echo GRAPHTIME-II Ended.
+        rem mode mono
+        :bnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF !EGAMON
+*OPTION B  "Business Graphics (GraphTime-II)"
+        if exist \gt\*.* goto bfound
+        echo Graphtime-II not found on disk
+        pause
+        goto bnotfound
+        :bfound
+        cd\gt
+        rem mode co80
+        echo Loading GRAPHTIME-II Screen-print Driver.
+        ECHO OFF
+        PORT LPT1:
+        REM
+        REM V2.7C 04-18-1988A
+        REM AHLKCYDEUGYZBXZBEEJFU
+        REM EGCSBAHUKVNODOQKBDQZX
+        REM MBDKAIPJKHGCEMHJRCEVB
+        REM ESUA@FHWEAKYATUMTBVCE
+        REM MOUSE
+        gtprS
+        GTSTART
+        echo GRAPHTIME-II Ended.
+        rem mode mono
+        :bnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF HERC
+*OPTION B  "Business Graphics (GraphTime-II)"
+        if exist \gt\*.* goto bfound
+        echo Graphtime-II not found on disk
+        pause
+        goto bnotfound
+        :bfound
+        cd\gt
+        mode co80
+        ECHO Loading GRAPHTIME-II Screen-print Driver.
+        ECHO OFF
+        PORT LPT1:
+        REM
+        REM V2.7C 04-18-1988A
+        REM AHLKCYDEUGYZBXZBEEJFU
+        REM EGCSBAHUKVNODOQKBDQZX
+        REM MBDKAIPJKHGCEMHJRCEVB
+        REM ESUA@FHWEAKYATUMTBVCE
+        REM MOUSE
+        gtprS
+        GTSTART
+        echo GRAPHTIME-II Ended.
+        mode mono
+        :bnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*OPTION U  "Utilities and other useful programs"
+        if exist \utils\*.* goto ufound
+        echo Utilities not found on disk
+        pause
+        goto unotfound
+        :ufound
+        cd\utils
+        prompt Type: EXIT$lEnter$g to return to menu$_$P$G
+        dir/w
+        command
+        prompt $p$g
+        :unotfound
+        cd\
+*ENDOPT
+
+*IF CGA
+*OPTION G  "Games"
+        if exist \games\*.* goto gfound
+        echo Games not found on disk
+        pause
+        goto gnotfound
+        :gfound
+        cd\games
+        rem mode co80
+        break off
+*INCLUDE games.bat
+        break on
+        rem mode mono
+        :gnotfound
+        cd\
+*ENDOPT
+*OPTION C  "Composer of music (COMPOSER)"
+        if exist \composer\composer.* goto cfound
+        echo Composer not found on disk
+        pause
+        goto cnotfound
+        :cfound
+        cd\composer
+        rem mode co80
+        composer
+        rem mode mono
+        :cnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF !EGAMON
+*OPTION G  "Games"
+        if exist \games\*.* goto gfound
+        echo Games not found on disk
+        pause
+        goto gnotfound
+        :gfound
+        cd\games
+        rem mode co80
+        break off
+*INCLUDE games.bat
+        break on
+        rem mode mono
+        :gnotfound
+        cd\
+*ENDOPT
+*OPTION C  "Composer of music (COMPOSER)"
+        if exist \composer\composer.* goto cfound
+        echo Composer not found on disk
+        pause
+        goto cnotfound
+        :cfound
+        cd\composer
+        rem mode co80
+        composer
+        rem mode mono
+        :cnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*IF HERC
+*OPTION G  "Games"
+        if exist \games\*.* goto gfound
+        echo Games not found on disk
+        pause
+        goto gnotfound
+        :gfound
+        cd\games
+        mode co80
+        break off
+*INCLUDE games.bat
+        break on
+        mode mono
+        :gnotfound
+        cd\
+*ENDOPT
+*OPTION C  "Composer of music (COMPOSER)"
+        if exist \composer\composer.* goto cfound
+        echo Composer not found on disk
+        pause
+        goto cnotfound
+        :cfound
+        cd\composer
+        mode co80
+        composer
+        mode mono
+        :cnotfound
+        cd\
+*ENDOPT
+*ENDIF
+
+*OPTION H "Help with MenuManager"
+cls
+echo.
+echo                             MENU MANAGER
+echo.
+echo          MenuManager provides a menu-driven 'front end' to the
+echo     MicroSoft Disk Operating System (MSDOS) for casual and
+echo     inexperienced users.
+echo.
+echo          MenuManager menus are defined using a proprietary Menu
+echo     Definition Language (MDL) which is translated by MenuManager
+echo     into a batch language file. On this computer that batch file
+echo     is called MENU.BAT.
+echo.
+echo          Users wishing to redefine their own menus should read
+echo     the file MM.DOC which describes the MenuManager MDL. The
+echo     MicroSoft User's Guide and User's Reference should also be
+echo     consulted regarding the format of MSDOS batch language
+echo     commands.
+echo.
+what c "Do you wish to read the MenuManager documentation (Y/N)? " YN
+if %WHAT%==Y list C:\MENU\mm.doc
+*ENDOPT
+*OPTION R "Run another program or MSDOS command"
+        cd\
+        prompt Type: EXIT$lEnter$g to return to menu$_$P$G
+        command
+        prompt $p$g
+        cd\
+*ENDOPT
+*OPTION M "Prepare to move computer (PARK)"
+        hddpark
+*ENDOPT
+*EXIT X "Exit to DOS"
+      c:
+      cd\
+      PROMPT $e[s$e[1;33;44m$e[1;67H$d$e[2;67H$t$h$h$h$e[1;31;40m$e[u$p $e[0;32;40m$g
+      cls
+*ENDEXIT
+*FINISH
+
+
+     Appendix D:
+                                           
+                PROGRAMS NEEDED TO DEVELOP AND RUN A MENUMANAGER MENU
+                                           
+     Program: MM.EXE
+     Usage: Translates an MDL file into an MSDOS batch file menu.
+     Description: Start at page 1 of this document.
+     Example:
+          MM MAIN
+      
+     Program: WHAT.EXE
+     Usage: Needed to run a MenuManager menu.
+     Description: Returns a value in an environment variable and in ERRORLEVEL
+     according to parameters supplied on the command line.
+     Example:
+          WHAT C "Delete all .BAK files (Y/N)?" YN
+          IF %WHAT%==Y DEL *.BAK
+      
+     Program: LIST.COM 
+     Usage: Needed to see the MenuManager documentation when menu is running. 
+     Description: Displays a file or files in fullscreen mode with full cursor
+     movement, and text searching. 
+     Example: 
+          LIST *.BAS
+      
+     Program: KEY-FAKE.COM
+     Usage: Needed to see documentation in Games submenu.
+     Description: Places keystrokes in the keyboard buffer before a program
+     runs. Accepts double-quoted strings, ascii values as numbers and scancodes
+     prefixed by '@'.
+     Example:
+          KEY-FAKE 13
+          DBASE ACCRECBL
+          rem supplies a [return] to the opening screen of dBaseIII+
+      
+     Program: MAKEMM.EXE 
+     Usage: Automates the translation of .MNU files based on declarations in
+     file of type .MKE. 
+     Description: Recognizes four (4) keywords: REM, MAIN, SUB, and OUTPUT. 
+          REM: Any text following this is regarded as a remark and ignored.
+          MAIN: Defines the main .MNU file.
+          SUB: Defines any subsidiary .MNU files separated by spaces.
+     Example: 
+          rem make file for pcs menu
+          main main.mnu
+          sub main_g.mnu
+
+     Appendix F:
+------------------------------------------------------------------------
+                            SUGGESTIONS FORM
+                                           
+Date:    ________________
+      
+Name:    ________________________________________________
+
+Address: ________________________________________________
+      
+         ________________________________________________
+      
+         ________________________________________________
+      
+State:   _________________  Postcode: ___________________
+      
+Phone:   __________  _________________
+      
+      
+What suggestions do you have for improving the MenuManager documentation?
+      
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+      
+What suggestions do you have for improving the MenuManager program?
+      
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+      
+Post to: Bruce Axtens, PC Support Group, GPO Box U 1987, Perth  WA  6001
+------------------------------------------------------------------------
+      
+                           FURTHER INFORMATION
+      
+MenuManager is written in Pascal using Turbo Pascal version 5. The
+source code is considered proprietary and is therefore not available.
+The Author is not at present distributing any programs other than
+MenuManager, though this state of affairs may change. MenuManager is
+designed specifically for the IBM PC environment and porting it to other
+systems has not been considered.
